@@ -5,6 +5,7 @@
 #include <unistd.h>
 //главная функция программы
 int main()
+//объявление переменных
 {
 	uid_t userid;
 	gid_t groupid;
