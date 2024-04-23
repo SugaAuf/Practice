@@ -31,11 +31,13 @@ int main()
 	if (close(fd[0])<0)
 	{
 		printf("Can\'t close input stream\n");
+		exit(-1);
 	}
 	if (close(fd[1])<0)
         {
                 printf("Can\'t close output stream\n");
+		exit(-1;)
 	}
 	return 0;
 }
-	
+
