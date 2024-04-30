@@ -6,6 +6,7 @@
 int main()
 {
 	int fd[2];
+	pid_t result;
 	size_t size;
 	char string[] = "Hello, world!";
 	char resstring[14];
@@ -15,28 +16,50 @@ int main()
 		printf("Can\'t create pipe\n");
 		exit(-1);
 	}
-	size = write(fd[1], string, 14);
-	if(size != 14) //если записалось меньшее кол-во байт - сообщается об ошибке
+	result = fork();
+	if(result<0)
 	{
-		printf("Can\'t write all string\n");
-		exit(-1);
+		printf("Error fork()\n");
 	}
-	size = read(fd[0], resstring, 14);
-	if(size<0)
+	else if (result>0)
 	{
-		printf("Can\'t read string\n");
-		exit(-1);
+		if (close(fd[0])<0)
+		{
+			printf("Ошибка при закрыти pipe для чтения");
+			exit(-1);
+		}
+		size = write(fd[1], string, 14);
+		if(size != 14) //если записалось меньшее кол-во байт - сообщается об ошибке
+		{
+			printf("Can\'t write all string\n");
+			exit(-1);
+		}
+		printf("Процесс-родитель записал информацию в pipe и заканчивает работу\n");
+		if (close(fd[1])<0)
+        	{
+                	printf("Can\'t close output stream\n");
+                	exit(-1);
+        	}
 	}
-	printf("%s\n", resstring);
-	if (close(fd[0])<0)
+	else
 	{
-		printf("Can\'t close input stream\n");
-		exit(-1);
-	}
-	if (close(fd[1])<0)
-        {
-                printf("Can\'t close output stream\n");
-		exit(-1;)
+		size = read(fd[0], resstring, 14);
+		if(size!=14)
+		{
+			printf("Can\'t read string\n");
+			exit(-1);
+		}
+		printf("%s\n", resstring);
+		if (close(fd[0])<0)
+		{
+			printf("Can\'t close input stream\n");
+			exit(-1);
+		}
+		if (close(fd[1])<0)
+        	{
+                	printf("Can\'t close output stream\n");
+			exit(-1);
+		}
 	}
 	return 0;
 }
