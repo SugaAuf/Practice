@@ -7,7 +7,7 @@ class Avto
 
 	void range() 
 	{
-		System.out.println("Автомобиль проедет " + vfuel/cons*100 + "км, на полном баке");
+		System.out.println("Автомобиль проедет " + vfuel/cons*100 + " км, на полном баке");
 	}
 }
 
@@ -35,8 +35,16 @@ class Obj1
 		System.out.println("Емкость топливного бака: " + nissan.vfuel);
 		System.out.println("Тип кузова: " + nissan.type);
 		nissan.range();
-		//System.out.println("Информация об автомобиле \"Форд\"");
-		//System.out.println("Информация об автомобиле \"БМВ\"");
+		System.out.println("Информация об автомобиле \"Форд\"");
+		System.out.println("Количество пассажиров: " + ford.kpass);
+                System.out.println("Емкость топливного бака: " + ford.vfuel);
+                System.out.println("Тип кузова: " + ford.type);
+                ford.range();
+		System.out.println("Информация об автомобиле \"БМВ\"");
+		System.out.println("Количество пассажиров: " + bmw.kpass);
+                System.out.println("Емкость топливного бака: " + bmw.vfuel);
+                System.out.println("Тип кузова: " + bmw.type);
+                bmw.range();
 
 	}
 }
