@@ -1,16 +1,10 @@
-abstract class Character 
+abstract class Character //абстрактный класс, описывающий персонажа
 {
-	private String charclass;
-	private int hp;
-	private int mp;
-	private int strength;
-	private int stamina;
-
-	Character()
-	{
-		charclass = "none";
-		hp = mp = strength = stamina = 0;
-	}
+	private String charclass; //название класса персонажа
+	private int hp; //кол-во очков здоровья
+	private int mp; //кол-во маны (очков магии)
+	private int strength; //сила
+	private int stamina; //выносливость
 
 	Character(String chcl, int h, int m, int st, int stam)
 	{
@@ -21,6 +15,7 @@ abstract class Character
 	        stamina	= stam;
 	}
 
+	//методы доступа к переменным
 	int getHP() { return hp; }
         int getMP() { return mp; }
         int getStrength() { return strength; }
@@ -37,40 +32,39 @@ abstract class Character
 		System.out.println("Здоровье: " + hp  + "\nМана: " + mp + "\nСила: " + strength + "\nВыносливость: " + stamina);
 	}
 
-	abstract double dmg();
-	abstract double speed();
+	abstract double dmg(); //объявление абстрактного метода, высчитывающего урон персонажа
+	abstract double speed(); //объявление абстрактного метода, высчитывающего скорость персонажа
 }
 
-class Knight extends Character
+class Knight extends Character //подкласс Knight производный из класса Character
 {
-	private String armor;
 	Knight(String chcl, int h, int m, int st, int stam)
 	{
-		super("Рыцарь", h, m, st, stam);
+		super(chcl, h, m, st, stam); //вызов конструктора суперкласса
 	}
-	double dmg()
+	double dmg() //реализация метода dmg в классе Knight
 	{
-		return getHP() * 0.5 + getStrength();
+		return getHP() * 0.5 + getStrength(); //уникальная формула высчитывания урона для класса Knight в методе dmg
+	//урон зависит от количества здоровья и силы
 	}
 
 	double speed()
 	{
-		return getStamina() - (getStamina() * 0.2);
+		return getStamina() - (getStamina() * 0.2); //уникальная формула высчитывания скорости
 	}
 
 }
 
 class Mage extends Character
 {
-	String robe;
 	Mage(String chcl, int h, int m, int st, int stam)
         {
-                super("Маг", h, m, st, stam);
+                super(chcl, h, m, st, stam);
         }
 
         double dmg()
         {
-                return getMP() * getStrength();
+                return getMP() * getStrength(); //урон зависит от кол-ва маны и силы
         }
 
         double speed()
@@ -82,13 +76,12 @@ class Mage extends Character
 
 class Thief extends Character
 {
-	String coin;
 	Thief(String chcl, int h, int m, int st, int stam)
         {
-                super("Вор", h, m, st, stam);
+                super(chcl, h, m, st, stam);
         }
 
-	double speed()
+	double speed() //сначала реализуется метод speed, т.к. он используется для реализации метода dmg
         {
                 return getStamina() * 2 - (getHP() * 0.2);
         }
@@ -102,17 +95,16 @@ class Thief extends Character
 
 class Monk extends Character
 {
-	String fists;
 	Monk(String chcl, int h, int m, int st, int stam)
         {
-                super("Монах", h, m, st, stam);
+                super(chcl, h, m, st, stam);
         }
         double dmg()
         {
                 return getMP() * 0.5 + (getStrength() * (getStamina() / 3));
         }
 
-        double speed()
+        double speed() //в реализации данного метода используется метод dmg
         {
 		return getStamina() * (getHP() * 0.03);
 	}
@@ -130,12 +122,12 @@ class ClassesCharact
 		cls[2] = new Thief("Вор", 30, 4, 5, 7);
 		cls[3] = new Monk("Монах", 40, 6, 6, 10);
 
-		for(int i = 0; i < cls.length; i++)
+		for(int i = 0; i < cls.length; i++) //с помощью цикла for выводим данные всех персонажей
 		{
 			System.out.println("Класс персонажа: " + cls[i].getChClass());
 			System.out.println();
 			cls[i].showChar();
-			System.out.println("\nУрон: " + cls[i].dmg());
+			System.out.println("\nУрон: " + cls[i].dmg()); //для каждого класса вызываются соответствующие методы dmg и speed
 			System.out.println("Скорость: " + cls[i].speed());
 			System.out.println("------------------");
 		}
